@@ -88,8 +88,7 @@ Optional columns: `details, links, template, annotation_json, duration_minutes, 
 
 All routes are served under `BASE_PATH` (default: `/school`). Configure via:
 - `BASE_PATH` environment variable
-- `APPLICATION_ROOT` in Flask config
-- ProxyFix middleware for Caddy headers
+- ProxyFix middleware for Caddy headers (reads `X-Forwarded-Prefix`)
 
 ## API Endpoints
 
