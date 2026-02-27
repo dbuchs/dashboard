@@ -118,7 +118,7 @@ def seed():
                                 date=d,
                                 title=title,
                                 status="assigned",
-                                created_by=teacher.id if teacher.id else 1,
+                                created_by=teacher.id,
                             )
                             db.session.add(inst)
 

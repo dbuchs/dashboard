@@ -134,7 +134,7 @@ def parse_csv_preview(content, create_subjects=False):
 
 
 def commit_import(valid_rows, on_duplicate="skip", created_by=None):
-    created = skipped = errors = 0
+    created = updated = skipped = errors = 0
     for row in valid_rows:
         if row.get("errors"):
             errors += 1
@@ -163,7 +163,7 @@ def commit_import(valid_rows, on_duplicate="skip", created_by=None):
                 existing.subject_id = subject.id
                 db.session.add(existing)
                 inst = existing
-                created += 1
+                updated += 1
             else:
                 skipped += 1
                 continue
@@ -201,4 +201,4 @@ def commit_import(valid_rows, on_duplicate="skip", created_by=None):
         db.session.rollback()
         errors += 1
 
-    return created, skipped, errors
+    return created, updated, skipped, errors

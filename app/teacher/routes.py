@@ -185,14 +185,15 @@ def import_confirm():
         return redirect(url_for("teacher.import_csv"))
     rows, errors = parse_csv_preview(content, create_subjects=create_subjects)
     valid_rows = [r for r in rows if not r.get("errors")]
-    created, skipped, error_count = commit_import(
+    created, updated, skipped, error_count = commit_import(
         valid_rows, on_duplicate=on_duplicate, created_by=current_user.id
     )
     flask.session.pop("csv_import_data", None)
-    flash(
-        f"Import complete: {created} created, {skipped} skipped, {error_count} errors.",
-        "success",
-    )
+    msg = f"Import complete: {created} created"
+    if updated:
+        msg += f", {updated} updated"
+    msg += f", {skipped} skipped, {error_count} errors."
+    flash(msg, "success")
     return redirect(url_for("teacher.dashboard"))
 
 
