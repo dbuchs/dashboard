@@ -1,0 +1,6 @@
+date,student,subject,title,details,links,template,annotation_json,duration_minutes,status,completed_at
+2024-09-02,alice,Math,Math Lesson 5A,Complete problems 1-20,,,,30,assigned,
+2024-09-02,alice,Reading,Chapter 3 Reading,Read chapter 3 of Charlotte's Web,,,,20,assigned,
+2024-09-02,bob,Math,Math Lesson 3B,Complete worksheet,,,,25,assigned,
+2024-09-03,alice,Latin,Latin Vocab,Memorize vocab list 4,,,,15,assigned,
+2024-09-03,bob,Reading,Reading - Stuart Little,Read pages 45-60,,,,25,complete,

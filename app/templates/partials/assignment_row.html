@@ -1,0 +1,18 @@
+<div class="d-flex align-items-center gap-2">
+  <button
+    class="btn btn-{{ 'success' if inst.is_complete else 'outline-secondary' }} btn-sm"
+    hx-post="{{ url_for('teacher.toggle_assignment', instance_id=inst.id) }}"
+    hx-target="#assignment-{{ inst.id }}"
+    hx-swap="innerHTML"
+    hx-headers='{"X-CSRFToken": "{{ csrf_token() }}"}'
+  >
+    <i class="bi bi-{{ 'check-circle-fill' if inst.is_complete else 'circle' }}"></i>
+  </button>
+  <div class="flex-grow-1 {{ 'opacity-50 text-decoration-line-through' if inst.is_complete else '' }}">
+    {{ inst.title }}
+    {% if inst.details %}<span class="text-muted small ms-2">{{ inst.details[:50] }}</span>{% endif %}
+  </div>
+  {% if inst.completion and inst.completion.completed_at %}
+  <small class="text-success">{{ inst.completion.completed_at.strftime('%I:%M %p') }}</small>
+  {% endif %}
+</div>

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Import Assignments{% endblock %}
+{% block content %}
+<h2><i class="bi bi-upload"></i> Import Assignments (CSV)</h2>
+<div class="row g-4">
+  <div class="col-md-8">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <form method="POST" enctype="multipart/form-data" action="{{ url_for('teacher.import_csv') }}">
+          {{ form.hidden_tag() }}
+          <div class="mb-3">
+            {{ form.csv_file.label(class="form-label") }}
+            {{ form.csv_file(class="form-control") }}
+            {% for e in form.csv_file.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}
+          </div>
+          <div class="mb-3 form-check">
+            {{ form.create_subjects(class="form-check-input") }}
+            {{ form.create_subjects.label(class="form-check-label") }}
+          </div>
+          <div class="mb-3">
+            {{ form.on_duplicate.label(class="form-label") }}
+            {{ form.on_duplicate(class="form-select") }}
+          </div>
+          {{ form.submit(class="btn btn-primary") }}
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card">
+      <div class="card-header">CSV Format</div>
+      <div class="card-body small">
+        <p>Required: <code>date, student, subject, title</code></p>
+        <p>Optional: <code>details, links, template, annotation_json, duration_minutes, status, completed_at</code></p>
+        <a href="{{ url_for('download_sample_csv') }}" class="btn btn-sm btn-outline-secondary">
+          <i class="bi bi-download"></i> Download Template
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

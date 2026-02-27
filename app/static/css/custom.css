@@ -1,0 +1,14 @@
+.assignment-card {
+  transition: all 0.3s ease;
+}
+.assignment-card.completed {
+  background-color: #f8fff8;
+}
+.assignment-card.completed .fw-bold {
+  text-decoration: line-through;
+  color: #6c757d;
+}
+.btn-xs {
+  padding: 0.1rem 0.3rem;
+  font-size: 0.75rem;
+}

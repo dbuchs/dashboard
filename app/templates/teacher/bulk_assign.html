@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Bulk Assign{% endblock %}
+{% block content %}
+<h2><i class="bi bi-plus-circle"></i> Bulk Assign</h2>
+<div class="card shadow-sm">
+  <div class="card-body">
+    <form method="POST" action="{{ url_for('teacher.bulk_assign') }}">
+      {{ form.hidden_tag() }}
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label">Students *</label>
+          <select name="{{ form.student_ids.name }}" multiple class="form-select" size="5">
+            {% for val, label in form.student_ids.choices %}
+            <option value="{{ val }}">{{ label }}</option>
+            {% endfor %}
+          </select>
+          <div class="form-text">Hold Ctrl/Cmd to select multiple</div>
+        </div>
+        <div class="col-md-6">
+          <div class="mb-3">
+            {{ form.subject_id.label(class="form-label") }}
+            {{ form.subject_id(class="form-select") }}
+          </div>
+          <div class="mb-3">
+            {{ form.template_id.label(class="form-label") }}
+            {{ form.template_id(class="form-select") }}
+          </div>
+        </div>
+        <div class="col-12">
+          {{ form.title.label(class="form-label") }}
+          {{ form.title(class="form-control") }}
+          {% for e in form.title.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}
+        </div>
+        <div class="col-12">
+          {{ form.details.label(class="form-label") }}
+          {{ form.details(class="form-control", rows=3) }}
+        </div>
+        <div class="col-md-4">
+          {{ form.start_date.label(class="form-label") }}
+          {{ form.start_date(class="form-control") }}
+        </div>
+        <div class="col-md-4">
+          {{ form.end_date.label(class="form-label") }}
+          {{ form.end_date(class="form-control") }}
+          <div class="form-text">Leave blank for single day</div>
+        </div>
+        <div class="col-md-4 d-flex align-items-end gap-3">
+          <div class="form-check">
+            {{ form.skip_weekends(class="form-check-input") }}
+            {{ form.skip_weekends.label(class="form-check-label") }}
+          </div>
+        </div>
+        <div class="col-12">
+          {{ form.submit(class="btn btn-primary") }}
+          <a href="{{ url_for('teacher.dashboard') }}" class="btn btn-outline-secondary">Cancel</a>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
