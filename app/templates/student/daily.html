@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}My Assignments - {{ selected_date }}{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h2>
+    <i class="bi bi-calendar-check"></i>
+    {% if selected_date == today %}Today{% else %}{{ selected_date }}{% endif %}
+  </h2>
+  <form class="d-flex gap-2" method="GET">
+    <input type="date" name="date" value="{{ selected_date }}" class="form-control" style="width:auto">
+    <button class="btn btn-outline-primary btn-sm" type="submit"><i class="bi bi-search"></i></button>
+  </form>
+</div>
+{% if grouped %}
+{% for subject_name, instances in grouped.items() %}
+<div class="card mb-3 shadow-sm">
+  <div class="card-header">
+    <h5 class="mb-0"><i class="bi bi-journal-bookmark"></i> {{ subject_name }}</h5>
+  </div>
+  <div class="card-body p-0">
+    {% for inst in instances %}
+    <div id="assignment-{{ inst.id }}" class="assignment-card p-3 border-bottom {{ 'completed' if inst.is_complete else '' }}">
+      {% include "partials/assignment_card.html" %}
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endfor %}
+{% else %}
+<div class="text-center py-5">
+  <i class="bi bi-calendar-x display-1 text-muted"></i>
+  <p class="text-muted mt-3">No assignments for this date.</p>
+</div>
+{% endif %}
+{% endblock %}

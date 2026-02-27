@@ -1,0 +1,53 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: dashboard
+      POSTGRES_USER: dashboard
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-dashboard_secret}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dashboard"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build: .
+    environment:
+      DATABASE_URL: postgresql+psycopg2://dashboard:${DB_PASSWORD:-dashboard_secret}@db:5432/dashboard
+      SECRET_KEY: ${SECRET_KEY:-change-me-in-production}
+      BASE_PATH: ${BASE_PATH:-/school}
+      PREFERRED_URL_SCHEME: ${PREFERRED_URL_SCHEME:-https}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      FLASK_APP: wsgi:application
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./:/app
+    expose:
+      - "8000"
+
+  caddy:
+    image: caddy:2-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./docker/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - app
+    environment:
+      DOMAIN: ${DOMAIN:-localhost}
+      ACME_EMAIL: ${ACME_EMAIL:-admin@example.com}
+
+volumes:
+  pgdata:
+  caddy_data:
+  caddy_config:
